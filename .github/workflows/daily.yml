@@ -1,4 +1,4 @@
-name: Daily Registry Update
+name: Daily Online Schools Registry
 
 on:
   schedule:
@@ -35,6 +35,6 @@ jobs:
         run: |
           git config user.name "registry-bot"
           git config user.email "registry-bot@users.noreply.github.com"
-          git add data/*.csv
+          git add sources.txt data/*.csv
           git commit -m "daily update" || echo "No changes"
           git push

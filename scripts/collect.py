@@ -1,3 +1,4 @@
+import os
 import csv
 import time
 from urllib.parse import urljoin, urlparse
@@ -35,6 +36,7 @@ def extract_links(html: str, base_url: str) -> list[str]:
     return out
 
 def read_sources(path="sources.txt") -> list[str]:
+    os.makedirs("data", exist_ok=True)
     with open(path, "r", encoding="utf-8") as f:
         return [line.strip() for line in f if line.strip() and not line.strip().startswith("#")]
 

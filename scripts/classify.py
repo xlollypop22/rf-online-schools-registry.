@@ -22,6 +22,8 @@ def main():
         r["priority"] = pr
 
     fields = list(rows[0].keys()) if rows else []
+    import os
+    os.makedirs("data", exist_ok=True)
     with open("data/registry_final.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()

@@ -159,7 +159,8 @@ def main():
             })
 
             time.sleep(SLEEP_SEC)
-
+import os
+os.makedirs("data", exist_ok=True)
     with open("data/registry_enriched.csv", "w", newline="", encoding="utf-8") as f:
         fields = [
             "domain","base_url","email_general","phone_general","tg","vk","youtube","instagram",

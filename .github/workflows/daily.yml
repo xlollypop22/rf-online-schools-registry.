@@ -1,0 +1,40 @@
+name: Daily Registry Update
+
+on:
+  schedule:
+    # 09:00 Buenos Aires (UTC-3) = 12:00 UTC
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pipeline
+        run: |
+          python scripts/collect.py
+          python scripts/enrich.py
+          python scripts/classify.py
+
+      - name: Commit outputs
+        run: |
+          git config user.name "registry-bot"
+          git config user.email "registry-bot@users.noreply.github.com"
+          git add data/*.csv
+          git commit -m "daily update" || echo "No changes"
+          git push
